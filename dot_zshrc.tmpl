@@ -84,7 +84,15 @@ HIST_STAMPS="yyyy-mm-dd"
 # Add wisely, as too many plugins slow down shell startup.
 # plugins=(git per-directory-history zsh-syntax-highlighting)
 # plugins=(git gradle nvm virtualenvwrapper sudo command-not-found zsh-autosuggestions poetry)
-plugins=(git zsh-syntax-highlighting)
+plugins=(git zsh-syntax-highlighting virtualenvwrapper)
+
+{{ if (eq .chezmoi.os "linux") -}}
+{{ if (eq .chezmoi.osRelease.id "ubuntu") -}}
+
+plugins+=(poetry)
+
+{{ end -}}
+{{ end -}}
 
 ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 

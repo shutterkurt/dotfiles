@@ -1,0 +1,21 @@
+{{- if (eq .chezmoi.os "linux") -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+# set default shell to zsh
+chsh -s /usr/bin/zsh
+
+
+{{ if (eq .chezmoi.osRelease.id "debian" "ubuntu") -}}
+
+# create the poetry completion plugin
+destdir="${HOME}/.oh-my-zsh/custom/plugins/poetry"
+poetrycmd="${HOME}/.local/bin/poetry"
+rm -rf ${destdir}
+mkdir -p ${destdir}
+$poetrycmd completions zsh > ${destdir}/_poetry
+
+{{ end -}}
+
+{{ end -}}
