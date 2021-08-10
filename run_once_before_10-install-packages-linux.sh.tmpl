@@ -49,7 +49,7 @@ batversion="0.18.2"
 batfile=bat_${batversion}_armhf.deb
 trap "rm -rf ${batfile}" EXIT
 wget https://github.com/sharkdp/bat/releases/download/v${batversion}/${batfile}
-sudo apt install ${batfile}
+sudo apt install ./${batfile}
 
 {{ end -}}
 
