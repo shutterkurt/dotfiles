@@ -6,6 +6,7 @@ set -eufo pipefail
 repositories=()
 packages=(
 	curl
+	wget
 	build-essential
 	ripgrep
 	jq
@@ -23,6 +24,11 @@ pythonpkgs=(
 # install poetry using python3 (fails with python i.e. python2)
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python3 -
 
+# for ubuntu, bat is inside 'normal' repo (see below for pi)
+packages+=(
+	bat
+)
+
 {{ end -}}
 
 # install apt packages:
@@ -34,5 +40,18 @@ sudo apt install -y ${packages[@]}
 
 # install python packages:
 pip3 install ${pythonpkgs[@]}
+
+# do some special pi installs
+# after the above so wget is valid
+{{ if (eq .chezmoi.osRelease.id "raspbian") -}}
+
+batversion="0.18.2"
+batfile=bat_${batversion}_armhf.deb
+trap "rm -rf ${batfile}" EXIT
+wget https://github.com/sharkdp/bat/releases/download/v${batversion}/${batfile}
+sudo apt install ${batfile}
+
+{{ end -}}
+
 
 {{ end -}}

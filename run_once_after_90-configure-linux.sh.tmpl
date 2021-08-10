@@ -6,6 +6,12 @@ set -eufo pipefail
 # set default shell to zsh
 chsh -s /usr/bin/zsh
 
+# create the chezmoi completion plugin
+destdir="${HOME}/.oh-my-zsh/custom/plugins/chezmoi"
+chezmoicmd="${HOME}/bin/chezmoi"
+rm -rf ${destdir}
+mkdir -p ${destdir}
+$chezmoicmd completion zsh > ${destdir}/_chezmoi
 
 {{ if (eq .chezmoi.osRelease.id "debian" "ubuntu") -}}
 
