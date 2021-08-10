@@ -10,12 +10,11 @@ update-oh-my-zsh:
 	chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh oh-my-zsh-master.tar.gz
 
 update-zsh-syntax-highlighting:
-	mkdir -p dot_oh-my-zsh/custom/plugins
+	mkdir -p dot_oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 	curl -s -L -o zsh-syntax-highlighting-master.tar.gz https://github.com/zsh-users/zsh-syntax-highlighting/archive/master.tar.gz
 	chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting zsh-syntax-highlighting-master.tar.gz
 
 update-zsh-powerlevel10k:
-	mkdir -p dot_oh-my-zsh/custom/themes
+	mkdir -p dot_oh-my-zsh/custom/themes/powerlevel10k
 	curl -s -L -o zsh-powerlevel10k.tag.gz https://github.com/romkatv/powerlevel10k/archive/v1.14.6.tar.gz
 	chezmoi import --strip-components 1 --destination ${HOME}/.oh-my-zsh/custom/themes/powerlevel10k zsh-powerlevel10k.tag.gz
-	
