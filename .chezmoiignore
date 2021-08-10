@@ -3,3 +3,17 @@ Makefile
 install.sh
 *.deb
 *.tar.gz
+
+{{ if ne .chezmoi.os "windows" }}
+Documents
+{{ else }}
+.oh-my-zsh
+.p10k.zsh
+.ssh/authorized_keys
+.ssh/id_rsa
+.ssh/id_rsa.pub
+.tmux.conf
+.vim
+.vimrc
+.zshrc
+{{ end }}
