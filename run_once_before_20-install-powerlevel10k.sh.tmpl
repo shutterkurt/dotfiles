@@ -1,0 +1,19 @@
+{{ if (eq .chezmoi.os "linux") -}}
+#!/bin/bash
+
+#powerlevel10k does not follow chezmoi import file structure so need to do it here
+
+set -eufo pipefail
+
+version="v1.15.0"
+destdir="${HOME}/.oh-my-zsh/custom/themes/powerlevel10k"
+
+# sepcific personal theme config stored separately, so can safely delete destdir
+rm -rf ${destdir}
+mkdir -p ${destdir}
+curl -s -L https://github.com/romkatv/powerlevel10k/archive/${version}.tar.gz | tar -C ${destdir} --strip-components=1 -xzf -
+
+# assumes fonts are installed - go to github readme to install
+# TODO: need to install the fonts if not headless!
+
+{{ end -}}
