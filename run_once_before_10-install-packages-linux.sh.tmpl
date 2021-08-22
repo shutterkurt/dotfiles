@@ -8,6 +8,7 @@ packages=(
 	curl
 	wget
 	build-essential
+	git
 	ripgrep
 	jq
 	zsh
@@ -19,18 +20,6 @@ pythonpkgs=(
 	virtualenvwrapper
 )
 
-{{ if (eq .chezmoi.osRelease.id "debian" "ubuntu") -}}
-
-# install poetry using python3 (fails with python i.e. python2)
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python3 -
-
-# for ubuntu, bat is inside 'normal' repo (see below for pi)
-packages+=(
-	bat
-)
-
-{{ end -}}
-
 # install apt packages:
 for repository in ${repositories[@]}; do
 	sudo add-apt-repository -y $repository
@@ -41,17 +30,30 @@ sudo apt install -y ${packages[@]}
 # install python packages:
 pip3 install ${pythonpkgs[@]}
 
-# do some special pi installs
-# after the above so wget is valid
-{{ if (eq .chezmoi.osRelease.id "raspbian") -}}
+{{ if (eq .chezmoi.osRelease.id "debian" "ubuntu") -}}
+# poetry needs to be installed after virtualenvwrapper!
+# install poetry using python3 (fails with python i.e. python2)
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python3 -
 
+{{ end -}}
+
+# do some special installs
+# after the above so wget is valid
+####################      install bat
+# install latests from github - periodically check the version number
 batversion="0.18.2"
+{{ if (eq .chezmoi.osRelease.id "debian" "ubuntu") -}}
+batfile=bat_${batversion}_amd64.deb
+{{ end -}}
+
+{{ if (eq .chezmoi.osRelease.id "raspbian") -}}
 batfile=bat_${batversion}_armhf.deb
+{{ end -}}
+
 trap "rm -rf ${batfile}" EXIT
 wget https://github.com/sharkdp/bat/releases/download/v${batversion}/${batfile}
 sudo apt install ./${batfile}
 
-{{ end -}}
 
 
 {{ end -}}
